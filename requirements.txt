@@ -1,3 +1,10 @@
+# Mettre pip à jour en premier
+pip>=24.0
+
+# Ignorer les avertissements de version
+--disable-pip-version-check
+
+# Dépendances principales
 streamlit==1.28.0
 pandas==2.1.3
 numpy==1.24.3
