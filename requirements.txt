@@ -1,4 +1,3 @@
-# requirements.txt - Version optimisée pour Streamlit Cloud
 streamlit==1.28.0
 pandas==2.0.3
 numpy==1.24.3
@@ -11,7 +10,5 @@ reportlab==4.0.4
 sympy==1.12
 markdown==3.4.4
 click==8.1.7
-
-# Optionnels (désactivez si problème)
-# python-docx==0.8.11
-# xlrd==2.0.1
+python-docx==0.8.11
+xlrd==2.0.1
