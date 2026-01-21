@@ -28,13 +28,12 @@ try:
     from visualization.charts import create_decomposition_charts, create_time_series_chart
     from visualization.tables import TableGenerator
     from visualization.reports import ReportGenerator, ExcelExporter
-except ImportError as e:
-    st.error(f"Erreur d'importation des modules: {str(e)}")
-    st.info("Assurez-vous que tous les modules sont dans le dossier 'modules/'")
+except ImportError:
+    st.error("Certains modules nécessaires ne sont pas disponibles.")
     # Créer des classes factices pour éviter les erreurs
     class DemographicDecomposition:
         def analyze(self, *args, **kwargs):
-            return {"error": "Module non chargé"}
+            return {"error": "Module non disponible"}
     class MathematicalDecomposition:
         pass
     class RegressionDecomposition:
@@ -2212,31 +2211,28 @@ elif analysis_type == "📚 Documentation et Exemples":
 st.markdown("---")
 
 # Footer avec informations de copyright et crédits
-footer_col1, footer_col2, footer_col3 = st.columns([1, 2, 1])
-
-with footer_col2:
-    st.markdown("""
-    <div class="footer fade-in">
-        <div style="margin-bottom: 10px;">
-            <strong style="color: #1E3A8A; font-size: 1.1rem;">Power by Lab_Math and SCSM Group & CIE.</strong><br>
-            <span style="color: #6B7280;">Copyright 2026, tous droits réservés.</span>
-        </div>
-        
-        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #E5E7EB;">
-            <span style="color: #9CA3AF; font-size: 0.9rem;">
-            📧 Contact : info@labmath-scsm.com | 
-            🌐 Site : www.labmath-scsm.com | 
-            📱 Support : +237 XXX XXX XXX
-            </span>
-        </div>
-        
-        <div style="margin-top: 10px; color: #9CA3AF; font-size: 0.8rem;">
-            Application d'Analyse de Décomposition - Version 1.0.0<br>
-            Dernière mise à jour : Novembre 2026<br>
-            Développé par l'Équipe IFORD Groupe 4 avec ❤️
-        </div>
+st.markdown("""
+<div class="footer fade-in">
+    <div style="text-align: center; margin-bottom: 10px;">
+        <strong style="color: #1E3A8A; font-size: 1.1rem;">Power by Lab_Math and SCSM Group & CIE.</strong><br>
+        <span style="color: #6B7280;">Copyright 2026, tous droits réservés.</span>
     </div>
-    """, unsafe_allow_html=True)
+    
+    <div style="text-align: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid #E5E7EB;">
+        <span style="color: #9CA3AF; font-size: 0.9rem;">
+        📧 Contact : info@labmath-scsm.com | 
+        🌐 Site : www.labmath-scsm.com | 
+        📱 Support : +237 620 307 439 
+        </span>
+    </div>
+    
+    <div style="text-align: center; margin-top: 10px; color: #9CA3AF; font-size: 0.8rem;">
+        Application d'Analyse de Décomposition Sociale - Version 1.0.0<br>
+        Dernière mise à jour : Novembre 2026<br>
+        Développé par l'Équipe IFORD Groupe 4
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ============================================================================
 # SCRIPT FINAL - MESSAGE DE CONFIRMATION
