@@ -116,7 +116,7 @@ st.markdown("""
         font-size: 0.9rem;
     }
     
-    /* Footer Style Spécifique */
+    /* Footer Style Spécifique - C'est ici que la magie opère pour le footer */
     .footer-container {
         text-align: center;
         margin-top: 3rem;
@@ -124,6 +124,7 @@ st.markdown("""
         background-color: #F9FAFB;
         border-top: 1px solid #E5E7EB;
         border-radius: 10px;
+        font-family: sans-serif;
     }
     .footer-title {
         color: #1E3A8A;
@@ -131,17 +132,30 @@ st.markdown("""
         font-weight: bold;
         margin-bottom: 0.5rem;
     }
+    .footer-copyright {
+        color: #6B7280;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
     .footer-links {
         color: #9CA3AF;
         font-size: 0.9rem;
         margin: 1rem 0;
         padding-top: 1rem;
         border-top: 1px solid #E5E7EB;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .footer-item {
+        display: inline-block;
     }
     .footer-credits {
         color: #9CA3AF;
         font-size: 0.8rem;
         margin-top: 1rem;
+        line-height: 1.5;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -247,7 +261,6 @@ with st.sidebar:
     # Logo et titre
     col1, col2 = st.columns([1, 3])
     with col1:
-        # Utilisation d'une image générique fiable
         st.image("https://cdn-icons-png.flaticon.com/512/1995/1995515.png", width=60)
     with col2:
         st.markdown("### 🔍 Navigation")
@@ -664,24 +677,26 @@ elif analysis_type == "📚 Documentation et Exemples":
     st.markdown("Documentation complète disponible dans le manuel utilisateur.")
 
 # ============================================================================
-# FOOTER GLOBAL (CORRIGÉ HTML)
+# FOOTER GLOBAL
 # ============================================================================
 st.markdown("---")
+
+# CORRECTION ICI : Structure HTML propre pour le footer (utilisation de classes CSS définies plus haut)
 st.markdown("""
 <div class="footer-container">
     <div class="footer-title">Power by Lab_Math and SCSM Group & CIE.</div>
-    <div style="color: #6B7280; font-size: 0.9rem;">Copyright 2026, tous droits réservés.</div>
+    <div class="footer-copyright">Copyright 2026, tous droits réservés.</div>
     
     <div class="footer-links">
-        📧 Contact : info@labmath-scsm.com | 
-        🌐 Site : www.labmath-scsm.com | 
-        📱 Support : +237 620 307 439 
+        <span class="footer-item">📧 Contact : info@labmath-scsm.com</span>
+        <span class="footer-item">🌐 Site : www.labmath-scsm.com</span>
+        <span class="footer-item">📱 Support : +237 620 307 439</span>
     </div>
     
     <div class="footer-credits">
         Application d'Analyse de Décomposition Sociale - Version 1.0.0<br>
         Dernière mise à jour : Novembre 2026<br>
-        Développé par l'Équipe de Lab_Math et Le Groupe SCSM & CIE
+        Développé par l'Équipe IFORD Groupe 4
     </div>
 </div>
 """, unsafe_allow_html=True)
