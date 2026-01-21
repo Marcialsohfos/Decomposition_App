@@ -686,18 +686,13 @@ st.markdown("""
 <div class="footer-container">
     <div class="footer-title">Power by Lab_Math and SCSM Group & CIE.</div>
     <div class="footer-copyright">Copyright 2026, tous droits réservés.</div>
+    <div class="footer-item">📧 Contact : info@labmath-scsm.com.</div>
+    <div class="footer-item">🌐 Site : www.labmath-scsm.com.</div>
+    <div class="footer-item">📱 Support : +237 620 307 439.</div>
+    <div class="footer-credits">Application d'Analyse de Décomposition Sociale - Version 1.0.0<br>
+                                Dernière mise à jour : Novembre 2026<br>
+                                Développé par l'Équipe de Lab_Math et SCSM Group & CIE.</div>
     
-    <div class="footer-links">
-        <span class="footer-item">📧 Contact : info@labmath-scsm.com</span>
-        <span class="footer-item">🌐 Site : www.labmath-scsm.com</span>
-        <span class="footer-item">📱 Support : +237 620 307 439</span>
-    </div>
-    
-    <div class="footer-credits">
-        Application d'Analyse de Décomposition Sociale - Version 1.0.0<br>
-        Dernière mise à jour : Novembre 2026<br>
-        Développé par l'Équipe IFORD Groupe 4
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
