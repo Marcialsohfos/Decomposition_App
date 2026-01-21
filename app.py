@@ -12,41 +12,12 @@ import plotly.express as px
 from pathlib import Path
 import sys
 import os
-import tempfile
 from datetime import datetime
 
 # Ajouter le dossier modules au path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
 
-# Importer tous les modules de décomposition
-try:
-    from modules.demographic import DemographicDecomposition
-    from modules.mathematical import MathematicalDecomposition
-    from modules.regression import RegressionDecomposition
-    from modules.structural import StructuralDecomposition
-    from modules.utils import DataLoader, Validator, Exporter
-    from visualization.charts import create_decomposition_charts, create_time_series_chart
-    from visualization.tables import TableGenerator
-    from visualization.reports import ReportGenerator, ExcelExporter
-except ImportError:
-    # Créer des classes factices pour éviter les erreurs si les modules manquent
-    class DemographicDecomposition:
-        def analyze(self, *args, **kwargs):
-            return {"error": "Module non disponible"}
-    class MathematicalDecomposition:
-        pass
-    class RegressionDecomposition:
-        pass
-    class StructuralDecomposition:
-        pass
-    class TableGenerator:
-        @staticmethod
-        def create_detailed_table(*args, **kwargs):
-            return go.Figure()
-    class ReportGenerator:
-        pass
-
-# Configuration de la page Streamlit
+# Configuration de la page Streamlit (DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT)
 st.set_page_config(
     page_title="Analyse de Décomposition Sociale",
     page_icon="📊",
@@ -58,6 +29,28 @@ st.set_page_config(
         'About': "Application d'analyse de décomposition sociale - IFORD Groupe 4"
     }
 )
+
+# Importer les modules (avec gestion d'erreur silencieuse pour la prod)
+try:
+    from modules.demographic import DemographicDecomposition
+    from modules.mathematical import MathematicalDecomposition
+    from modules.regression import RegressionDecomposition
+    from modules.structural import StructuralDecomposition
+    from modules.utils import DataLoader, Validator, Exporter
+    from visualization.charts import create_decomposition_charts, create_time_series_chart
+    from visualization.tables import TableGenerator
+    from visualization.reports import ReportGenerator, ExcelExporter
+except ImportError:
+    # Classes factices minimales pour éviter le crash si modules manquants
+    class DemographicDecomposition:
+        def analyze(self, *args, **kwargs): return {"error": "Module non disponible"}
+    class MathematicalDecomposition: pass
+    class RegressionDecomposition: pass
+    class StructuralDecomposition: pass
+    class TableGenerator:
+        @staticmethod
+        def create_detailed_table(*args, **kwargs): return go.Figure()
+    class ReportGenerator: pass
 
 # ============================================================================
 # STYLES CSS PERSONNALISÉS
@@ -123,80 +116,32 @@ st.markdown("""
         font-size: 0.9rem;
     }
     
-    /* Boutons personnalisés */
-    .stButton button {
-        width: 100%;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Onglets */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: pre-wrap;
-        border-radius: 0.5rem 0.5rem 0 0;
-        padding: 10px 20px;
-    }
-    
-    /* Footer */
-    .footer {
+    /* Footer Style Spécifique */
+    .footer-container {
         text-align: center;
-        color: #666;
-        font-size: 0.8rem;
-        padding: 1.5rem;
-        margin-top: 2rem;
-        border-top: 1px solid #E5E7EB;
+        margin-top: 3rem;
+        padding: 2rem;
         background-color: #F9FAFB;
-        border-radius: 0.5rem;
+        border-top: 1px solid #E5E7EB;
+        border-radius: 10px;
     }
-    
-    /* Cartes de métriques */
-    .metric-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 0.8rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        border: 1px solid #E5E7EB;
+    .footer-title {
+        color: #1E3A8A;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
     }
-    
-    /* Animation d'entrée */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    .footer-links {
+        color: #9CA3AF;
+        font-size: 0.9rem;
+        margin: 1rem 0;
+        padding-top: 1rem;
+        border-top: 1px solid #E5E7EB;
     }
-    
-    .fade-in {
-        animation: fadeIn 0.5s ease-out;
-    }
-    
-    /* Scrollbar personnalisée */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+    .footer-credits {
+        color: #9CA3AF;
+        font-size: 0.8rem;
+        margin-top: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -231,8 +176,6 @@ def reset_application():
 
 def load_example_data(example_name):
     """Charge un jeu de données d'exemple"""
-    # ... (Code existant pour charger les exemples)
-    # Pour simplifier, création de données factices comme dans votre code
     try:
         if example_name == "Afrique: Dépenses éducation (2015-2020)":
             data = {
@@ -304,6 +247,7 @@ with st.sidebar:
     # Logo et titre
     col1, col2 = st.columns([1, 3])
     with col1:
+        # Utilisation d'une image générique fiable
         st.image("https://cdn-icons-png.flaticon.com/512/1995/1995515.png", width=60)
     with col2:
         st.markdown("### 🔍 Navigation")
@@ -627,9 +571,6 @@ elif analysis_type == "👥 Décomposition Démographique":
         if st.button("🚀 Lancer l'analyse démographique", type="primary", use_container_width=True):
             with st.spinner("🔍 Analyse en cours..."):
                 try:
-                    # Ici, on simule l'appel au module de décomposition
-                    # Dans une vraie implémentation, cela appellerait DemographicDecomposition.analyze
-                    
                     # Simulation des résultats pour l'affichage (car les modules peuvent ne pas être présents)
                     results = {
                         'group_results': df.copy(),
@@ -723,28 +664,24 @@ elif analysis_type == "📚 Documentation et Exemples":
     st.markdown("Documentation complète disponible dans le manuel utilisateur.")
 
 # ============================================================================
-# FOOTER GLOBAL
+# FOOTER GLOBAL (CORRIGÉ HTML)
 # ============================================================================
 st.markdown("---")
 st.markdown("""
-<div class="footer fade-in">
-    <div style="text-align: center; margin-bottom: 10px;">
-        <strong style="color: #1E3A8A; font-size: 1.1rem;">Power by Lab_Math and SCSM Group & CIE.</strong><br>
-        <span style="color: #6B7280;">Copyright 2026, tous droits réservés.</span>
-    </div>
+<div class="footer-container">
+    <div class="footer-title">Power by Lab_Math and SCSM Group & CIE.</div>
+    <div style="color: #6B7280; font-size: 0.9rem;">Copyright 2026, tous droits réservés.</div>
     
-    <div style="text-align: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid #E5E7EB;">
-        <span style="color: #9CA3AF; font-size: 0.9rem;">
+    <div class="footer-links">
         📧 Contact : info@labmath-scsm.com | 
         🌐 Site : www.labmath-scsm.com | 
         📱 Support : +237 620 307 439 
-        </span>
     </div>
     
-    <div style="text-align: center; margin-top: 10px; color: #9CA3AF; font-size: 0.8rem;">
+    <div class="footer-credits">
         Application d'Analyse de Décomposition Sociale - Version 1.0.0<br>
         Dernière mise à jour : Novembre 2026<br>
-        Développé par l'Équipe IFORD Groupe 4
+        Développé par l'Équipe de Lab_Math et Le Groupe SCSM & CIE
     </div>
 </div>
 """, unsafe_allow_html=True)
